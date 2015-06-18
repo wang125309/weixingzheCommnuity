@@ -1,0 +1,192 @@
+@import '../../bower_components/swiper/dist/css/swiper.min.css';
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+.clearfix   {
+  display:inline-table;
+  height:1%;
+  display:block;
+}
+#loading {
+  background:url("/ford/public/image/299.gif") no-repeat;
+  background-color:rgba(0,0,0,0.8);
+  background-position:center;
+  background-size:auto;
+  position:absolute;
+  width:100%;
+  height:100%;
+  z-index:100000;
+
+}
+@-webkit-keyframes ratote {
+  0% {
+    -webkit-transform:rotate(0deg);
+  }
+  100% {
+    -webkit-transform:rotate(360deg);
+  }
+}
+.music-play {
+  -webkit-animation-name:ratote;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-animation-duration: 3s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count:infinite;
+  -webkit-animation-fill-mode: both;
+}
+.music {
+  background:url("/ford/public/image/music.png") no-repeat;
+  background-size:100% auto;
+  width:10vw;
+  height:10vw;
+  top:3vw;
+
+  position:absolute;
+  right:3vw;
+}
+@-webkit-keyframes textup-p1 {
+  0% {
+    -webkit-transform:translateX(700px);
+  }
+  100% {
+    -webkit-transform:translateX(0);
+  }
+}
+@-webkit-keyframes  title-logo-animate{
+  0% {
+    opacity:0;
+    -webkit-transform:rotate(0);
+  }
+  80% {
+    opacity:1;
+    -webkit-transform:rotate(0);
+  }
+  85% {
+    -webkit-transform:rotate(5deg);
+  }
+  90% {
+    -webkit-transform:rotate(-5deg);
+  }
+  95% {
+    -webkit-transform:rotate(5deg);
+  }
+  100 {
+    -webkit-transform:rotate(0);
+  }
+}
+@-webkit-keyframes next {
+  0% {
+    -webkit-transform:translateX(-700px);
+  }
+  100% {
+    -webkit-transform:translateX(0);
+  }
+}
+@-webkit-keyframes textup-p3-3 {
+  0% {
+    -webkit-transform:scale(1.7);
+  }
+  100% {
+    -webkit-transform:scale(1);
+  }
+}
+@-webkit-keyframes pull-left {
+  0% {
+    -webkit-transform:translateX(-700px);
+  }
+  100% {
+    -webkit-transform:translateX(0);
+  }
+} 
+@-webkit-keyframes pull-right {
+  0% {
+    -webkit-transform:translateX(700px);
+  }
+  100% {
+    -webkit-transform:translateX(0);
+  }
+}
+@-webkit-keyframes btn1 {
+  0% {
+    -webkit-transform:scale(0.2);
+  }
+  100% {
+    -webkit-transform:scale(1);
+  }
+}
+* {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
+  -webkit-touch-callout:none;
+}
+body {
+  height:100%;
+  position:absolute;
+  font-size: 14px;
+  color: #333; 
+  font-family: '微软雅黑';
+  background-color: #fff;
+  letter-spacing: 1px;
+  margin:0 auto;
+  box-shadow: 0 0 160px 0 #5C99E7;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
+  background-size:cover;
+  width:100vw;
+  box-sizing:border-box;
+  -webkit-transition:all .5s;
+  .swiper-container {
+    width:100vw;
+    height:100vh;
+  }
+
+  .base {
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-delay: .2s;
+    -webkit-animation-timing-function: ease;
+    -webkit-animation-fill-mode: both;
+    animation-duration: 1s;
+    animation-delay: .2s;
+    animation-timing-function: ease;
+    animation-fill-mode: both;
+    display:none;
+  }
+  .page1 {
+  }
+  .page2 {
+  }
+  .page3 {
+  }
+  .page4 {
+  }
+  .page5 {
+  }
+  .page6 {
+  }
+  .page7 {
+  }
+  .page8 {
+  }
+  .page9 {
+  }
+  .page10 {
+  }
+}

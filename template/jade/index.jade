@@ -1,0 +1,18 @@
+include ./lib/header.jade
+    script(language="javascript",src="/static/js/index.min.js")
+    link(href="/static/css/index.css",rel="stylesheet",type="text/css")
+    body
+        audio#audio(src="/public/image/background.mp3",loop="loop")
+        div#loading=""
+        section.swiper-container
+            section.swiper-wrapper
+                section.swiper-slide(class="page page1")
+                    div.p1-text=""
+                    div.p1-car=""
+                    div.bottom(style="height:100vh;width:100vw;")=""
+                section.swiper-slide(class="page page2")=""
+                    div.p2-text=""
+                    div.p2-car=""
+                    div.bottom(style="height:100vh;width:100vw;")=""
+
+script(language="javascript",src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js")
