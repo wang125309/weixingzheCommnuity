@@ -1612,11 +1612,220 @@ window.$ === undefined && (window.$ = Zepto)
 ;
 
 },{}],4:[function(require,module,exports){
+//     Zepto.js
+//     (c) 2010-2014 Thomas Fuchs
+//     Zepto.js may be freely distributed under the MIT license.
+
+;(function($){
+  var touch = {},
+    touchTimeout, tapTimeout, swipeTimeout, longTapTimeout,
+    longTapDelay = 750,
+    gesture
+
+  function swipeDirection(x1, x2, y1, y2) {
+    return Math.abs(x1 - x2) >=
+      Math.abs(y1 - y2) ? (x1 - x2 > 0 ? 'Left' : 'Right') : (y1 - y2 > 0 ? 'Up' : 'Down')
+  }
+
+  function longTap() {
+    longTapTimeout = null
+    if (touch.last) {
+      touch.el.trigger('longTap')
+      touch = {}
+    }
+  }
+
+  function cancelLongTap() {
+    if (longTapTimeout) clearTimeout(longTapTimeout)
+    longTapTimeout = null
+  }
+
+  function cancelAll() {
+    if (touchTimeout) clearTimeout(touchTimeout)
+    if (tapTimeout) clearTimeout(tapTimeout)
+    if (swipeTimeout) clearTimeout(swipeTimeout)
+    if (longTapTimeout) clearTimeout(longTapTimeout)
+    touchTimeout = tapTimeout = swipeTimeout = longTapTimeout = null
+    touch = {}
+  }
+
+  function isPrimaryTouch(event){
+    return (event.pointerType == 'touch' ||
+      event.pointerType == event.MSPOINTER_TYPE_TOUCH)
+      && event.isPrimary
+  }
+
+  function isPointerEventType(e, type){
+    return (e.type == 'pointer'+type ||
+      e.type.toLowerCase() == 'mspointer'+type)
+  }
+
+  $(document).ready(function(){
+    var now, delta, deltaX = 0, deltaY = 0, firstTouch, _isPointerType
+
+    if ('MSGesture' in window) {
+      gesture = new MSGesture()
+      gesture.target = document.body
+    }
+
+    $(document)
+      .bind('MSGestureEnd', function(e){
+        var swipeDirectionFromVelocity =
+          e.velocityX > 1 ? 'Right' : e.velocityX < -1 ? 'Left' : e.velocityY > 1 ? 'Down' : e.velocityY < -1 ? 'Up' : null;
+        if (swipeDirectionFromVelocity) {
+          touch.el.trigger('swipe')
+          touch.el.trigger('swipe'+ swipeDirectionFromVelocity)
+        }
+      })
+      .on('touchstart MSPointerDown pointerdown', function(e){
+        if((_isPointerType = isPointerEventType(e, 'down')) &&
+          !isPrimaryTouch(e)) return
+        firstTouch = _isPointerType ? e : e.touches[0]
+        if (e.touches && e.touches.length === 1 && touch.x2) {
+          // Clear out touch movement data if we have it sticking around
+          // This can occur if touchcancel doesn't fire due to preventDefault, etc.
+          touch.x2 = undefined
+          touch.y2 = undefined
+        }
+        now = Date.now()
+        delta = now - (touch.last || now)
+        touch.el = $('tagName' in firstTouch.target ?
+          firstTouch.target : firstTouch.target.parentNode)
+        touchTimeout && clearTimeout(touchTimeout)
+        touch.x1 = firstTouch.pageX
+        touch.y1 = firstTouch.pageY
+        if (delta > 0 && delta <= 250) touch.isDoubleTap = true
+        touch.last = now
+        longTapTimeout = setTimeout(longTap, longTapDelay)
+        // adds the current touch contact for IE gesture recognition
+        if (gesture && _isPointerType) gesture.addPointer(e.pointerId);
+      })
+      .on('touchmove MSPointerMove pointermove', function(e){
+        if((_isPointerType = isPointerEventType(e, 'move')) &&
+          !isPrimaryTouch(e)) return
+        firstTouch = _isPointerType ? e : e.touches[0]
+        cancelLongTap()
+        touch.x2 = firstTouch.pageX
+        touch.y2 = firstTouch.pageY
+
+        deltaX += Math.abs(touch.x1 - touch.x2)
+        deltaY += Math.abs(touch.y1 - touch.y2)
+      })
+      .on('touchend MSPointerUp pointerup', function(e){
+        if((_isPointerType = isPointerEventType(e, 'up')) &&
+          !isPrimaryTouch(e)) return
+        cancelLongTap()
+
+        // swipe
+        if ((touch.x2 && Math.abs(touch.x1 - touch.x2) > 30) ||
+            (touch.y2 && Math.abs(touch.y1 - touch.y2) > 30))
+
+          swipeTimeout = setTimeout(function() {
+            touch.el.trigger('swipe')
+            touch.el.trigger('swipe' + (swipeDirection(touch.x1, touch.x2, touch.y1, touch.y2)))
+            touch = {}
+          }, 0)
+
+        // normal tap
+        else if ('last' in touch)
+          // don't fire tap when delta position changed by more than 30 pixels,
+          // for instance when moving to a point and back to origin
+          if (deltaX < 30 && deltaY < 30) {
+            // delay by one tick so we can cancel the 'tap' event if 'scroll' fires
+            // ('tap' fires before 'scroll')
+            tapTimeout = setTimeout(function() {
+
+              // trigger universal 'tap' with the option to cancelTouch()
+              // (cancelTouch cancels processing of single vs double taps for faster 'tap' response)
+              var event = $.Event('tap')
+              event.cancelTouch = cancelAll
+              touch.el.trigger(event)
+
+              // trigger double tap immediately
+              if (touch.isDoubleTap) {
+                if (touch.el) touch.el.trigger('doubleTap')
+                touch = {}
+              }
+
+              // trigger single tap after 250ms of inactivity
+              else {
+                touchTimeout = setTimeout(function(){
+                  touchTimeout = null
+                  if (touch.el) touch.el.trigger('singleTap')
+                  touch = {}
+                }, 250)
+              }
+            }, 0)
+          } else {
+            touch = {}
+          }
+          deltaX = deltaY = 0
+
+      })
+      // when the browser window loses focus,
+      // for example when a modal dialog is shown,
+      // cancel all ongoing events
+      .on('touchcancel MSPointerCancel pointercancel', cancelAll)
+
+    // scrolling the window indicates intention of the user
+    // to scroll, not tap or swipe, so cancel all ongoing events
+    $(window).on('scroll', cancelAll)
+  })
+
+  ;['swipe', 'swipeLeft', 'swipeRight', 'swipeUp', 'swipeDown',
+    'doubleTap', 'tap', 'singleTap', 'longTap'].forEach(function(eventName){
+    $.fn[eventName] = function(callback){ return this.on(eventName, callback) }
+  })
+})(Zepto)
+
+},{}],5:[function(require,module,exports){
 require("../../bower_components/zepto/zepto.js");
+require("../../bower_components/zeptojs/src/touch.js");
 require("../../bower_components/velocity/velocity.min.js");
 require("../../bower_components/swiper/dist/js/swiper.min.js");
-require("../js/share.min.js");
 window.onload = function(){
+    share = 0;
+    msg = '赶快叫小伙伴儿一起来测测吧！';
+    var share_message = function() {
+        $.post("/wx_share/wxconfig/",{
+            "url":location.href
+        },function(data){
+            wx.config(data);
+            wx.ready(function(){
+                wx.onMenuShareTimeline({
+                    link:"",
+                    imgUrl:"",
+                    title:msg,
+                });
+                wx.onMenuShareAppMessage({
+                    link:"",
+                    imgUrl:"",
+                    title:msg,
+                });
+            });
+            wx.error(function(res){
+                $.get("/wx_share/update_access_token/",function(data){
+                    $.post("/wx_share/wxconfig/",{
+                        "url":location.href
+                    },function(data){
+                        wx.config(data);
+                        wx.ready(function(){
+                            wx.onMenuShareTimeline({
+                                link:"",
+                                imgUrl:"",
+                                title:msg,
+                            });
+                            wx.onMenuShareAppMessage({
+                                link:"",
+                                imgUrl:"",
+                                title:msg,
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    }
     $("#loading").velocity("fadeOut");
     w = $(window).width();
     h = $(window).height();
@@ -1638,16 +1847,163 @@ window.onload = function(){
         direction:'vertical',
         lazyLoading:true,
         onInit: function() {
+            $(".p1-text").show();
+            setTimeout(function(){
+                $(".p1-car1").show();
+            },3000);
+            setTimeout(function(){
+                $(".p1-car2").show();
+            },4000);
+            setTimeout(function(){
+                $(".p1-car3").show();
+            },5000);
+            setTimeout(function(){
+                $(".p1-car4").show();
+            },6000);
+            setTimeout(function(){
+                $(".p1-car5").show();
+            },7000);
+            setTimeout(function(){
+                $(".p1-car6").show();
+            },8000);
+            setTimeout(function(){
+                $(".p1-car7").show();
+            },9000);
         },
         onSlideChangeEnd: function(swiper){
             if(swiper.activeIndex == 0) {
+                $(".p1-text").show();
+                setTimeout(function(){
+                    $(".p1-car1").show();
+                },3000);
+                setTimeout(function(){
+                    $(".p1-car2").show();
+                },4000);
+                setTimeout(function(){
+                    $(".p1-car3").show();
+                },5000);
+                setTimeout(function(){
+                    $(".p1-car4").show();
+                },6000);
+                setTimeout(function(){
+                    $(".p1-car5").show();
+                },7000);
+                setTimeout(function(){
+                    $(".p1-car6").show();
+                },8000);
+                setTimeout(function(){
+                    $(".p1-car7").show();
+                },9000);
             }
             else if(swiper.activeIndex == 1) {
+                $(".p2-car").show();
+                setTimeout(function(){
+                    $(".p2-text").show();
+                },1000);
+            }
+            else if(swiper.activeIndex == 2) {
+                $(".p3-car").show();
+                $(".p3-ele").show();
+                setTimeout(function(){
+                    $(".p3-text").show();
+                },1000);
+            }
+            else if(swiper.activeIndex == 3) {
+                $(".p4-car").show();
+                setTimeout(function(){
+                    $(".p4-bottom").show();
+                },500);
+                setTimeout(function(){
+                    $(".p4-text").show();
+                },1500);
+            }
+            else if(swiper.activeIndex == 4) {
+                $(".p5-car").show();
+                setTimeout(function(){
+                    $(".p5-text").show();
+                },1000)
+            }
+            else if(swiper.activeIndex == 5) {
+                $(".p6-car").show();
+                $(".p6-background").show();
+                setTimeout(function(){
+                    $(".p6-text").show(); 
+                },1000);
+            }
+            else if(swiper.activeIndex == 6) {
+                $(".p7-car").show();
+                setTimeout(function(){
+                    $(".p7-text").show(); 
+                },1000);
+            }
+            else if(swiper.activeIndex == 7) {
+                $(".p8-car").show();
+                setTimeout(function(){
+                    $(".p8-people").show();
+                },1000);
+                setTimeout(function(){
+                    $(".p8-text").show();
+                },2000);
+            }
+            else if(swiper.activeIndex == 8) {
+                $(".p9-cars").show();
+                setTimeout(function(){
+                    $(".p9-text").show(); 
+                },1000);
             }
         }
     });
+    var changeActive = function(num) {
+        $(".p9-car"+num).css({
+            "background-image":"url('/public/image/p9-car"+num+"-light.png')"
+        });
+        $(".p9-text").velocity({
+            "opacity":"0"
+        },1000);
+        setTimeout(function(){
+            $(".p9-text").css({
+                "background-image":"url('/public/image/p9-text-share.png')"
+            });
+            $(".p9-text").velocity({
+                "opacity":"1"
+            },1000);
+            $(".share-background").css({
+                "background-image":"url('/public/image/share"+num+".png')"
+            });
+            $(".share-box").show();
+        },1000);
+    };
+    $(".sure").on("tap",function(){
+        $(".share-box").velocity("fadeOut");
+    });
+    $(".p9-car1").on("tap",function(){
+        changeActive("1");
+        msg = '豆豆测出我有如“钢铁侠”般智能！？你也来测测！';
+    });
+    $(".p9-car2").on("tap",function(){
+        changeActive("2");
+        msg = '豆豆测出我有如“美国队长”般靠谱！？你也来测测！';
+    });
+    $(".p9-car3").on("tap",function(){
+        changeActive("3");
+        msg = '豆豆测出我有如“绿巨人”般骁勇！你也来测测！';
+    });
+    $(".p9-car4").on("tap",function(){
+        changeActive("4");
+        msg = '豆豆测出我有如“快银”般矫健！你也来测测！';
+    });
+    $(".p9-car5").on("tap",function(){
+        changeActive("5");
+        msg = '豆豆测出我有如“黑寡妇”般高冷！你也来测测！';
+    });
+    $(".p9-car6").on("tap",function(){
+        changeActive("6");
+        msg = '豆豆测出我有如“雷神”般迅猛！你也来测测！';
+    });
+    $(".p9-car7").on("tap",function(){
+        changeActive("7");
+        msg = '豆豆测出我有如“绯红女巫”般迷幻！你也来测测！';
+    });
 }
 
-},{"../../bower_components/swiper/dist/js/swiper.min.js":1,"../../bower_components/velocity/velocity.min.js":2,"../../bower_components/zepto/zepto.js":3,"../js/share.min.js":5}],5:[function(require,module,exports){
-!function t(e,o,n){function r(u,w){if(!o[u]){if(!e[u]){var a="function"==typeof require&&require;if(!w&&a)return a(u,!0);if(i)return i(u,!0);throw new Error("Cannot find module '"+u+"'")}var c=o[u]={exports:{}};e[u][0].call(c.exports,function(t){var o=e[u][1][t];return r(o?o:t)},c,c.exports,t,e,o,n)}return o[u].exports}for(var i="function"==typeof require&&require,u=0;u<n.length;u++)r(n[u]);return r}({1:[function(){$(function(){$.post("/blow/wxconfig/",{url:location.href},function(t){wx.config(t),wx.ready(function(){wx.onMenuShareTimeline({link:"http://www.360youtu.com/ford/template/index.html",imgUrl:"http://www.360youtu.com/ford/static/image/share-background.jpg",title:"锐界人生 不止于超越"}),wx.onMenuShareAppMessage({link:"http://www.360youtu.com/ford/template/index.html",imgUrl:"http://www.360youtu.com/ford/static/image/share-background.jpg",title:"锐界人生 不止于超越"})}),wx.error(function(){$.get("/blow/update_access_token/",function(){$.post("/blow/wxconfig/",{url:location.href},function(t){wx.config(t),wx.ready(function(){wx.onMenuShareTimeline({link:"http://www.360youtu.com/ford/template/index.html",imgUrl:"http://www.360youtu.com/ford/static/image/share-background.jpg",title:"锐界人生 不止于超越"}),wx.onMenuShareAppMessage({link:"http://www.360youtu.com/ford/template/index.html",imgUrl:"http://www.360youtu.com/ford/static/image/share-background.jpg",title:"锐界人生 不止于超越"})})})})})})})},{}]},{},[1]);
-},{}]},{},[4])
+},{"../../bower_components/swiper/dist/js/swiper.min.js":1,"../../bower_components/velocity/velocity.min.js":2,"../../bower_components/zepto/zepto.js":3,"../../bower_components/zeptojs/src/touch.js":4}]},{},[5])

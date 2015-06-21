@@ -1,0 +1,608 @@
+@import '../../bower_components/swiper/dist/css/swiper.min.css';
+.clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+
+.clearfix {
+    display: inline-table;
+    height: 1%;
+    display: block;
+}
+
+@mixin full {
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+}
+
+@mixin wauto {
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    background-position: center;
+}
+
+@mixin hauto {
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    background-position: center;
+}
+
+@mixin animation-loop {
+    -webkit-backface-visibility: hidden;
+    -webkit-animation-duration: 3s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-fill-mode: both;
+    display:none;
+}
+
+@mixin animation-linear {
+    -webkit-backface-visibility: hidden;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-fill-mode: both;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-delay: .2s;
+    display:none;
+}
+
+@mixin animation-ease {
+    -webkit-backface-visibility: hidden;
+    -webkit-animation-timing-function: ease;
+    -webkit-animation-fill-mode: both;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-delay: .2s;
+    display:none;
+}
+
+@mixin car1 {
+    position: absolute;
+    height: 40vw;
+    top: 90vw;
+    width: 100%;
+    @include wauto;
+    @include animation-ease;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-name: car1;
+}
+
+@mixin car9 {
+    height: 22vw;
+    width: 35vw;
+    display:inline-block;
+    background-position: center;
+    background-size: auto 100%;
+    background-repeat: no-repeat  ;
+    z-index:2;
+
+}
+
+#loading {
+    background: url("/ford/public/image/299.gif") no-repeat;
+    background-color: rgba(0, 0, 0, 0.8);
+    background-position: center;
+    background-size: auto;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 100000;
+}
+
+@-webkit-keyframes ratote {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes down {
+    0% {
+        -webkit-transform: translateY(-900px);
+    }
+    100% {
+        -webkit-transform: translateY(0);
+    }
+}
+
+@-webkit-keyframes pull-down {
+  0% {
+    -webkit-transform: translateY(-100vw);
+  }
+  50% {
+    -webkit-transform: translateY(0);
+  }
+  65% {
+    -webkit-transform: translateY(-10vw);
+  }
+  75% {
+    -webkit-transform: translateY(0);
+  }
+  80%{
+    -webkit-transform: translateY(-5vw);
+  }
+  85% {
+    -webkit-transform: translateY(0);
+  }
+  90% {
+    -webkit-transform: translateY(-2.5vw);
+  }
+  92.5% {
+    -webkit-transform: translateY(0);
+  }
+  95% {
+    -webkit-transform: translateY(-1.5vw);
+  }
+  97.5% {
+    -webkit-transform: translateY(0);
+  }
+  99% {
+    -webkit-transform: translateY(-1vw);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+  }
+}
+@-webkit-keyframes car1 {
+  0% {
+    -webkit-transform: translateX(-500px);
+  }
+  100% {
+    -webkit-transform: translateX(0);
+  }
+}
+@-webkit-keyframes pull-left {
+  0% {
+    -webkit-transform: translateX(-500px);
+  }
+  100% {
+    -webkit-transform: translateX(0);
+  }
+}
+@-webkit-keyframes pull-right {
+  0% {
+    -webkit-transform: translateX(500px);
+  }
+  100% {
+    -webkit-transform: translateX(0);
+  }
+}
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity:0;
+  }
+  100% {
+    opacity:1;
+  }
+}
+.music-play {
+    -webkit-animation-name: ratote;
+    -webkit-backface-visibility: hidden;
+    -webkit-animation-duration: 3s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-fill-mode: both;
+}
+
+.music {
+    background: url("/ford/public/image/music.png") no-repeat;
+    background-size: 100% auto;
+    width: 10vw;
+    height: 10vw;
+    top: 3vw;
+    position: absolute;
+    right: 3vw;
+}
+
+@-webkit-keyframes textup-p1 {
+    0% {
+        -webkit-transform: translateX(700px);
+    }
+    100% {
+        -webkit-transform: translateX(0);
+    }
+}
+
+* {
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+}
+
+body {
+    height: 100%;
+    position: absolute;
+    font-size: 14px;
+    color: #333;
+    font-family: '微软雅黑';
+    background-color: #fff;
+    letter-spacing: 1px;
+    margin: 0 auto;
+    box-shadow: 0 0 160px 0 #5C99E7;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+    background-size: cover;
+    width: 100vw;
+    box-sizing: border-box;
+    -webkit-transition: all .5s;
+    .swiper-container {
+        width: 100vw;
+        height: 100vh;
+    }
+    .page1 {
+        @include full;
+        background-image: url('/public/image/background1.jpg');
+        .logo {
+            @include hauto;
+            height: 12vw;
+            width: 100%;
+            background-image: url('/public/image/logo.png');
+            position: absolute;
+            bottom: 15vw;
+            @include animation-ease;
+        }
+        .p1-text {
+            @include hauto;
+            width: 100%;
+            height: 50vw;
+            position: absolute;
+            top: 15%;
+            background-image: url('/public/image/p1-text.png');
+            @include animation-ease;
+            -webkit-animation-duration: 2s;
+            -webkit-animation-name: pull-down;
+        }
+        .p1-car1 {
+            background-image: url('/public/image/p1-car1.png');
+            @include car1;
+            z-index: 7;
+
+        }
+        .p1-car2 {
+            background-image: url('/public/image/p1-car2.png');
+            @include car1;
+            z-index: 6;
+        }
+        .p1-car3 {
+            background-image: url('/public/image/p1-car3.png');
+            @include car1;
+            z-index: 5;
+        }
+        .p1-car4 {
+            background-image: url('/public/image/p1-car4.png');
+            @include car1;
+            z-index: 4;
+        }
+        .p1-car5 {
+            background-image: url('/public/image/p1-car5.png');
+            @include car1;
+            z-index: 3;
+        }
+        .p1-car6 {
+            background-image: url('/public/image/p1-car6.png');
+            @include car1;
+            z-index: 2;
+        }
+        .p1-car7 {
+            background-image: url('/public/image/p1-car7.png');
+            @include car1;
+            z-index: 1;
+        }
+    }
+    .page2 {
+        background-image: url('/public/image/background2.jpg');
+        @include full;
+        .p2-text {
+            height: 40vh;
+            width: 100%;
+            position: absolute;
+            top: 10vw;
+            background-image: url('/public/image/p2-text.png');
+            @include hauto;
+            @include animation-ease;
+            -webkit-animation-name:pull-right;
+        }
+        .p2-car {
+            position: absolute;
+            bottom: 15vw;
+            height: 40vh;
+            width: 100%;
+            background-image: url('/public/image/p2-car.png');
+            @include hauto;
+            @include animation-ease;
+            -webkit-animation-name:pull-left;
+        }
+    }
+    .page3 {
+        background-image: url('/public/image/background3.jpg');
+        @include full;
+        .p3-text {
+            height: 40vh;
+            width: 100%;
+            position: absolute;
+            top: 10vw;
+            background-image: url('/public/image/p3-text.png');
+            @include hauto;
+            @include animation-ease;
+            z-index:2;
+            -webkit-animation-name:pull-right;
+        }
+        .p3-ele {
+            height: 100vw;
+            width: 100%;
+            position: absolute;
+            top: 30vw;
+            z-index:1;
+            background-image: url('/public/image/p3-ele.png');
+            @include wauto;
+            @include animation-ease;
+            -webkit-animation-name:down;
+        }
+        .p3-car {
+            position: absolute;
+            bottom: 15vw;
+            height: 40vh;
+            width: 100%;
+            z-index:2;
+            background-image: url('/public/image/p3-car.png');
+            @include hauto;
+            @include animation-ease;
+            -webkit-animation-name:pull-left;
+        }
+    }
+    .page4 {
+        background-image: url('/public/image/background4.jpg');
+        @include full;
+        .p4-text {
+            height: 40vh;
+            width: 100%;
+            position: absolute;
+            top: 10vw;
+            z-index: 1;
+            background-image: url('/public/image/p4-text.png');
+            @include hauto;
+            @include animation-ease;
+            -webkit-animation-name:pull-right;
+        }
+        .p4-car {
+            position: absolute;
+            bottom: 20vw;
+            height: 40vh;
+            z-index: 2;
+            width: 100%;
+            background-image: url('/public/image/p4-car.png');
+            @include hauto;
+            @include animation-ease;
+            -webkit-animation-duration:0.5s;
+            -webkit-animation-name:down;
+        }
+        .p4-bottom {
+            z-index: 1;
+            position: absolute;
+            bottom: 0;
+            height: 30vw;
+            width: 100%;
+            background-image:url('/public/image/p4-bottom.png');
+            @include wauto;
+            @include animation-ease;
+            -webkit-animation-duration:1s;
+            -webkit-animation-name:fadeIn;
+        }
+    }
+    .page5 {
+        background-image: url('/public/image/background5.jpg');
+        @include full;
+        .p5-text {
+            height: 40vh;
+            width: 100%;
+            position: absolute;
+            top: 10vw;
+            background-image: url('/public/image/p5-text.png');
+            @include hauto;
+            @include animation-ease;
+            -webkit-animation-name:pull-left;
+        }
+        .p5-car {
+            position: absolute;
+            bottom: 15vw;
+            height: 40vh;
+            width: 100%;
+            background-image: url('/public/image/p5-car.png');
+            @include hauto;
+            @include animation-ease;
+            -webkit-animation-name:down;
+        }
+    }
+    .page6 {
+        background-image: url('/public/image/background6.jpg');
+        @include full;
+        .p6-text {
+            height: 40vh;
+            width: 100%;
+            position: absolute;
+            top: 10vw;
+            background-image: url('/public/image/p6-text.png');
+            @include hauto;
+            @include animation-ease;
+            -webkit-animation-name: pull-left;
+            z-index:2;
+        }
+        .p6-car {
+            position: absolute;
+            bottom: 15vw;
+            height: 40vh;
+            width: 100%;
+            background-image: url('/public/image/p6-car.png');
+            @include hauto;
+            @include animation-ease;
+            -webkit-animation-name: pull-left;
+            z-index:2;
+        }
+        .p6-background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            @include full;
+            background-image: url('/public/image/p6-background.png');
+            @include animation-ease;
+            -webkit-animation-name: fadeIn;
+            z-index:1;
+        }
+    }
+    .page7 {
+        background-image: url('/public/image/background7.jpg');
+        @include full;
+        .p7-text {
+            height: 40vh;
+            width: 100%;
+            position: absolute;
+            top: 10vw;
+            background-image: url('/public/image/p7-text.png');
+            @include hauto;
+            @include animation-ease;
+            -webkit-animation-name: pull-right;
+        }
+        .p7-car {
+            position: absolute;
+            bottom: 15vw;
+            height: 40vh;
+            width: 100%;
+            background-image: url('/public/image/p7-car.png');
+            @include hauto;
+            @include animation-ease;
+            -webkit-animation-name: pull-left;
+        }
+    }
+    .page8 {
+        background-image: url('/public/image/background8.jpg');
+        @include full;
+        .p8-text {
+            height: 40vh;
+            width: 100%;
+            position: absolute;
+            top: 10vw;
+            background-image: url('/public/image/p8-text.png');
+            @include hauto;
+            @include animation-ease;
+            -webkit-animation-name: pull-left;
+        }
+        .p8-people {
+            position:absolute;
+            width:100%;
+            height:100%;
+            background-image: url('/public/image/p8-people.png');
+            @include full;
+            @include animation-ease;
+            -webkit-animation-name: fadeIn;
+        }
+        .p8-car {
+            position: absolute;
+            bottom: 15vw;
+            height: 40vh;
+            width: 100%;
+            background-image: url('/public/image/p8-car.png');
+            @include hauto;
+            @include animation-ease;
+            -webkit-animation-name: pull-left;
+        }
+    }
+    .page9 {
+        background-image: url('/public/image/background9.jpg');
+        @include full;
+        .p9-cars {
+            -webkit-animation-name: fadeIn;
+            @include animation-ease;
+        }
+        .share-box {
+            position: absolute;
+            height: 60%;
+            width: 80%;
+            background-color: rgba(0,0,0,0.8);
+            top: 30%;
+            left: 10%;
+            .share-background {
+              
+            }
+            .sure {
+              
+            }
+        }
+        .p9-text {
+            margin-top:5vh;
+            height:25vh;
+            width:100%;
+            @include hauto;
+            @include animation-ease;
+            background-image: url('/public/image/p9-text.png');
+            -webkit-animation-name: down;
+            -webkit-animation-duration: 0.5s;
+        }
+        .p9-cars {
+            float: left;
+            margin-left: 15vw; 
+            .line {
+                width: 70vw;
+                .p9-car1 {
+                    @include car9;   
+                    left: 16vw;
+                    top: 50vw;
+                    background-image: url('/public/image/p9-car1.png');
+                }
+                .p9-car2 {
+                    left: 54vw;
+                    top: 50vw;
+                    @include car9;                            
+                    background-image: url('/public/image/p9-car2.png');
+                }
+            }
+            .line {
+                .p9-car3 {
+                    left: 16vw;
+                    top: 78vw;
+                    @include car9;                            
+                    background-image: url('/public/image/p9-car3.png');
+                }
+                .p9-car4 {
+                    left: 54vw;
+                    top: 78vw;
+                    @include car9;                            
+                    background-image: url('/public/image/p9-car4.png');
+                }
+            }
+            .line {
+                .p9-car5 {
+                    left: 16vw;
+                    top: 105vw;
+                    @include car9;                            
+                    background-image: url('/public/image/p9-car5.png');
+                }
+                .p9-car6 {
+                    left: 54vw;
+                    top: 105vw;
+                    @include car9;                            
+                    background-image: url('/public/image/p9-car6.png');
+                }
+            }
+            .line {
+                .p9-car7 {
+                    top: 134vw;
+                    left: 36vw;
+                    @include car9;
+                    background-image: url('/public/image/p9-car7.png');
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
