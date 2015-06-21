@@ -5,8 +5,8 @@ require("../../bower_components/swiper/dist/js/swiper.min.js");
 window.onload = function(){
     share = 0;
     msg = '赶快叫小伙伴儿一起来测测吧！';
-    var share_message = function() {
-        $.post("/wx_share/wxconfig/",{
+    var share_msg = function() {    
+        $.post("/wx/portal/wxconfig/",{
             "url":location.href
         },function(data){
             wx.config(data);
@@ -23,8 +23,8 @@ window.onload = function(){
                 });
             });
             wx.error(function(res){
-                $.get("/wx_share/update_access_token/",function(data){
-                    $.post("/wx_share/wxconfig/",{
+                $.get("/wx/portal/update_access_token/",function(data){
+                    $.post("/wx/portal/wxconfig/",{
                         "url":location.href
                     },function(data){
                         wx.config(data);
@@ -44,7 +44,8 @@ window.onload = function(){
                 });
             });
         });
-    }
+    };
+    share_msg();
     $("#loading").velocity("fadeOut");
     w = $(window).width();
     h = $(window).height();
@@ -198,29 +199,36 @@ window.onload = function(){
     $(".p9-car1").on("tap",function(){
         changeActive("1");
         msg = '豆豆测出我有如“钢铁侠”般智能！？你也来测测！';
+        share_msg();
     });
     $(".p9-car2").on("tap",function(){
         changeActive("2");
         msg = '豆豆测出我有如“美国队长”般靠谱！？你也来测测！';
+        share_msg();
     });
     $(".p9-car3").on("tap",function(){
         changeActive("3");
         msg = '豆豆测出我有如“绿巨人”般骁勇！你也来测测！';
+        share_msg();
     });
     $(".p9-car4").on("tap",function(){
         changeActive("4");
-        msg = '豆豆测出我有如“快银”般矫健！你也来测测！';
+        psg = '豆豆测出我有如“快银”般矫健！你也来测测！';
+        share_msg();
     });
     $(".p9-car5").on("tap",function(){
         changeActive("5");
         msg = '豆豆测出我有如“黑寡妇”般高冷！你也来测测！';
+        share_msg();
     });
     $(".p9-car6").on("tap",function(){
         changeActive("6");
         msg = '豆豆测出我有如“雷神”般迅猛！你也来测测！';
+        share_msg();
     });
     $(".p9-car7").on("tap",function(){
         changeActive("7");
-        msg = '豆豆测出我有如“绯红女巫”般迷幻！你也来测测！';
+        msg = '豆豆测出我有如“绯红女巫”般迷幻！你也来测测！`';
+        share_msg();
     });
 }
