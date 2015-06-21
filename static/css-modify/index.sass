@@ -495,15 +495,17 @@ body {
             @include hauto;
             @include animation-ease;
             -webkit-animation-name: pull-left;
+            z-index:2;
         }
         .p8-people {
             position:absolute;
             width:100%;
             height:100%;
-            background-image: url('/public/image/p8-people.png');
+            background-image: url('/public/image/p8-people.jpg');
             @include full;
             @include animation-ease;
             -webkit-animation-name: fadeIn;
+            z-index:1;  
         }
         .p8-car {
             position: absolute;
@@ -514,6 +516,7 @@ body {
             @include hauto;
             @include animation-ease;
             -webkit-animation-name: pull-left;
+            z-index:2;
         }
     }
     .page9 {
