@@ -66,7 +66,7 @@
     width: 100%;
     @include wauto;
     @include animation-ease;
-    -webkit-animation-duration: 1s;
+    -webkit-animation-duration: 0.5s;
     -webkit-animation-name: car1;
 }
 
@@ -81,7 +81,7 @@
 }
 
 #loading {
-    background: url("/ford/public/image/299.gif") no-repeat;
+    background: url("/public/image/299.gif") no-repeat;
     background-color: rgba(0, 0, 0, 0.8);
     background-position: center;
     background-size: auto;
@@ -179,6 +179,14 @@
     opacity:1;
   }
 }
+@-webkit-keyframes scaleUp {
+  0% {
+    -webkit-transform: scale(0);
+  }
+  100% {
+    -webkit-transform: scale(1);
+  } 
+}
 .music-play {
     -webkit-animation-name: ratote;
     -webkit-backface-visibility: hidden;
@@ -189,7 +197,7 @@
 }
 
 .music {
-    background: url("/ford/public/image/music.png") no-repeat;
+    background: url("/public/image/music.png") no-repeat;
     background-size: 100% auto;
     width: 10vw;
     height: 10vw;
@@ -420,6 +428,7 @@ body {
             background-image: url('/public/image/p5-car.png');
             @include hauto;
             @include animation-ease;
+            -webkit-animation-duration: 0.5s;
             -webkit-animation-name:down;
         }
     }
@@ -538,7 +547,7 @@ body {
             background-image: url('/public/image/border.png');
             @include full;
             @include animation-ease;
-            -webkit-animation-name: fadeIn;
+            -webkit-animation-name: scaleUp;
             .share-background {
               position: absolute;
               height: 100%;

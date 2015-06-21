@@ -4,8 +4,8 @@ require("../../bower_components/velocity/velocity.min.js");
 require("../../bower_components/swiper/dist/js/swiper.min.js");
 window.onload = function(){
     share = 0;
-    msg = '赶快叫小伙伴儿一起来测测吧！';
-    var share_msg = function() {    
+
+    var share_msg = function(msg) {    
         $.post("/wx/portal/wxconfig/",{
             "url":location.href
         },function(data){
@@ -20,6 +20,7 @@ window.onload = function(){
                     link:"",
                     imgUrl:"",
                     title:msg,
+                    desc:'微行者联盟强势出征！知豆有多懂你，一测便知！'
                 });
             });
             wx.error(function(res){
@@ -38,6 +39,7 @@ window.onload = function(){
                                 link:"",
                                 imgUrl:"",
                                 title:msg,
+                                desc:'微行者联盟强势出征！知豆有多懂你，一测便知！'
                             });
                         });
                     });
@@ -45,11 +47,12 @@ window.onload = function(){
             });
         });
     };
-    share_msg();
+    msg = '赶快叫小伙伴儿一起来测测吧！';
+    share_msg(msg);
     $("#loading").velocity("fadeOut");
     w = $(window).width();
     h = $(window).height();
-    $("#audio").attr({"src":"/ford/public/image/background.mp3","autoplay":""});
+    $("#audio").attr({"src":"/public/image/background.mp3","autoplay":""});
     on = false;
     $(".music").on("tap",function(){
         if(on) {
@@ -199,36 +202,36 @@ window.onload = function(){
     $(".p9-car1").on("tap",function(){
         changeActive("1");
         msg = '豆豆测出我有如“钢铁侠”般智能！？你也来测测！';
-        share_msg();
+        share_msg(msg);
     });
     $(".p9-car2").on("tap",function(){
         changeActive("2");
         msg = '豆豆测出我有如“美国队长”般靠谱！？你也来测测！';
-        share_msg();
+        share_msg(msg);
     });
     $(".p9-car3").on("tap",function(){
         changeActive("3");
         msg = '豆豆测出我有如“绿巨人”般骁勇！你也来测测！';
-        share_msg();
+        share_msg(msg);
     });
     $(".p9-car4").on("tap",function(){
         changeActive("4");
         psg = '豆豆测出我有如“快银”般矫健！你也来测测！';
-        share_msg();
+        share_msg(msg);
     });
     $(".p9-car5").on("tap",function(){
         changeActive("5");
         msg = '豆豆测出我有如“黑寡妇”般高冷！你也来测测！';
-        share_msg();
+        share_msg(msg);
     });
     $(".p9-car6").on("tap",function(){
         changeActive("6");
         msg = '豆豆测出我有如“雷神”般迅猛！你也来测测！';
-        share_msg();
+        share_msg(msg);
     });
     $(".p9-car7").on("tap",function(){
         changeActive("7");
         msg = '豆豆测出我有如“绯红女巫”般迷幻！你也来测测！`';
-        share_msg();
+        share_msg(msg);
     });
 }
