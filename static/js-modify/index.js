@@ -197,7 +197,11 @@ window.onload = function(){
         },1000);
     };
     $(".sure").on("tap",function(){
-        $(".share-box").velocity("fadeOut");
+        $(".share-line").show();
+    });
+    $(".share-line").on("tap",function(){
+        $(".share-line").hide();
+        $(".share-box").hide();
     });
     $(".p9-car1").on("tap",function(){
         changeActive("1");

@@ -548,6 +548,7 @@ body {
             @include full;
             @include animation-ease;
             -webkit-animation-name: scaleUp;
+            -webkit-animation-duration: 0.2s;
             .share-background {
               position: absolute;
               height: 100%;
@@ -634,4 +635,16 @@ body {
             }
         }
     }
+}
+.share-line {
+    @include full;
+    position:absolute;
+    height:100%;
+    width:100%;
+    top:0;
+    left:0;
+    background-color:rgba(0,0,0,0.8);
+    @include animation-ease;
+    -webkit-animation-name:fadeIn;
+    background-image:url("/public/image/share-line.png");
 }

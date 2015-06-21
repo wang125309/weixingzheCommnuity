@@ -20,7 +20,6 @@ gulp.task('sass',function(){
         .pipe(sass())
         .on('error', console.error)
         .pipe(css_minify())
-        .pipe(base64())
         .pipe(gulp.dest('./static/css'));
 });
 
