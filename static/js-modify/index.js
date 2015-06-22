@@ -12,13 +12,13 @@ window.onload = function(){
             wx.config(data);
             wx.ready(function(){
                 wx.onMenuShareTimeline({
-                    link:"",
-                    imgUrl:"",
+                    link:"http://zdhero.qingdianer.com",
+                    imgUrl:"http://zdhero.qingdianer.com/public/image/share.jpg",
                     title:msg,
                 });
                 wx.onMenuShareAppMessage({
-                    link:"",
-                    imgUrl:"",
+                    link:"http://zdhero.qingdianer.com",
+                    imgUrl:"http://zdhero.qingdianer.com/public/image/share.jpg",
                     title:msg,
                     desc:'微行者联盟强势出征！知豆有多懂你，一测便知！'
                 });
@@ -31,13 +31,13 @@ window.onload = function(){
                         wx.config(data);
                         wx.ready(function(){
                             wx.onMenuShareTimeline({
-                                link:"",
-                                imgUrl:"",
+                                link:"http://zdhero.qingdianer.com",
+                                imgUrl:"http://zdhero.qingdianer.com/public/image/share.jpg",
                                 title:msg,
                             });
                             wx.onMenuShareAppMessage({
-                                link:"",
-                                imgUrl:"",
+                                link:"http://zdhero.qingdianer.com",
+                                imgUrl:"http://zdhero.qingdianer.com/public/image/share.jpg",
                                 title:msg,
                                 desc:'微行者联盟强势出征！知豆有多懂你，一测便知！'
                             });
@@ -54,6 +54,7 @@ window.onload = function(){
     h = $(window).height();
     $("#audio").attr({"src":"/public/image/background.mp3","autoplay":""});
     on = false;
+    $(".music").addClass("music-play");
     $(".music").on("tap",function(){
         if(on) {
             on = false;
@@ -138,7 +139,7 @@ window.onload = function(){
                 },500);
                 setTimeout(function(){
                     $(".p4-text").show();
-                },1500);
+                },1000);
             }
             else if(swiper.activeIndex == 4) {
                 $(".p5-car").show();
@@ -201,11 +202,10 @@ window.onload = function(){
     });
     $(".share-line").on("tap",function(){
         $(".share-line").hide();
-        $(".share-box").hide();
     });
     $(".p9-car1").on("tap",function(){
         changeActive("1");
-        msg = '豆豆测出我有如“钢铁侠”般智能！？你也来测测！';
+        msg = '豆豆测出我有如“绿巨人”般骁勇！你也来测测！';
         share_msg(msg);
     });
     $(".p9-car2").on("tap",function(){
@@ -215,17 +215,17 @@ window.onload = function(){
     });
     $(".p9-car3").on("tap",function(){
         changeActive("3");
-        msg = '豆豆测出我有如“绿巨人”般骁勇！你也来测测！';
+        msg = '豆豆测出我有如“快银”般矫健！你也来测测！';
         share_msg(msg);
     });
     $(".p9-car4").on("tap",function(){
         changeActive("4");
-        psg = '豆豆测出我有如“快银”般矫健！你也来测测！';
+        msg = '豆豆测出我有如“黑寡妇”般高冷！你也来测测！';
         share_msg(msg);
     });
     $(".p9-car5").on("tap",function(){
         changeActive("5");
-        msg = '豆豆测出我有如“黑寡妇”般高冷！你也来测测！';
+        msg = '豆豆测出我有如“钢铁侠”般智能！？你也来测测！';
         share_msg(msg);
     });
     $(".p9-car6").on("tap",function(){
@@ -235,7 +235,7 @@ window.onload = function(){
     });
     $(".p9-car7").on("tap",function(){
         changeActive("7");
-        msg = '豆豆测出我有如“绯红女巫”般迷幻！你也来测测！`';
+        msg = '豆豆测出我有如“绯红女巫”般迷幻！你也来测测！';
         share_msg(msg);
     });
 }

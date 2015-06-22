@@ -55,7 +55,6 @@
     -webkit-animation-timing-function: ease;
     -webkit-animation-fill-mode: both;
     -webkit-animation-duration: 1s;
-    -webkit-animation-delay: .2s;
     display:none;
 }
 
@@ -66,8 +65,8 @@
     width: 100%;
     @include wauto;
     @include animation-ease;
-    -webkit-animation-duration: 0.5s;
     -webkit-animation-name: car1;
+    -webkit-animation-duration: 1s;
 }
 
 @mixin car9 {
@@ -204,6 +203,7 @@
     top: 3vw;
     position: absolute;
     right: 3vw;
+    z-index: 10;
 }
 
 @-webkit-keyframes textup-p1 {
@@ -256,8 +256,7 @@ body {
             width: 100%;
             background-image: url('/public/image/logo.png');
             position: absolute;
-            bottom: 15vw;
-            @include animation-ease;
+            bottom: 10vw;
         }
         .p1-text {
             @include hauto;
